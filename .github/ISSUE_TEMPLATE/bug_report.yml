@@ -28,7 +28,7 @@ body:
   - type: textarea
     id: reproduction
     attributes:
-      label: "How did it happen?"
+      label: "How can it be replicated?"
       description: "Describe how to reproduce the behaviour"
       placeholder: |
         1. Go to '...'
