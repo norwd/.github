@@ -1,5 +1,3 @@
----
-
 name: "Lint"
 run-name: "Linters started by @${{ github.actor }}"
 permissions: read-all
