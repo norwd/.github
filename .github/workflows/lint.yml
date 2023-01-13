@@ -23,7 +23,7 @@ jobs:
         run: python3 -m pip install --user cffconvert
 
       - name: Validate
-        run: cffconvert --validate
+        run: test -f CITATION.cff && cffconvert --validate
 
   markdown:
     name: Lint Markdown
