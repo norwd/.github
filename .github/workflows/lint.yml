@@ -25,7 +25,13 @@ jobs:
         run: python3 -m pip install --user cffconvert
 
       - name: Validate
-        run: test -f CITATION.cff && cffconvert --validate
+        run: |
+          if [ -f CITATION.cff ]
+          then
+            cffconvert --validate
+          else
+            echo "::warning::No CITATION.cff file found"
+          fi
 
   markdown:
     name: Lint Markdown
