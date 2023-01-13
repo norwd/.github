@@ -1,0 +1,143 @@
+---
+
+name: "Lint"
+run-name: "Linters started by @${{ github.actor }}"
+permissions: read-all
+
+on:
+  push:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  citations:
+    name: Lint Citations
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        run: python3 -m pip install --user cffconvert
+
+      - name: Validate
+        run: cffconvert --validate
+
+  markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Lint Markdown Files
+        uses: nosborn/github-action-markdown-cli@v3.2.0
+        with:
+          files: "**/*.md"
+          dot: true
+
+  yaml:
+    name: Lint Yaml
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Format YAML Files
+        if: github.ref != 'refs/heads/main'
+        uses: norwd/fmtya@v1.1.9
+        with:
+
+          # github settings
+          token: ${{ secrets.AUTO_YAML_FMT_DOTGITHUB }}
+
+          # yamlfmt settings
+          keep-line-breaks: true
+          include-files: |
+            **/*.yaml
+            **/*.yml
+            **/*.cff
+
+          # committer settings
+          signoff-on-commit: true
+          commit-user-name: norwd
+          commit-user-email: 106889957+norwd@users.noreply.github.com
+          signing-private-key: ${{ secrets.AUTO_COMMIT_GPG_PRIVATE_KEY_DOTGITHUB }}
+          signing-passphrase: ${{ secrets.AUTO_COMMIT_GPG_PASSPHRASE_DOTGITHUB }}
+
+      - name: Lint YAML Files
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          strict: true
+          format: parsable
+          config_data: |
+            extends: default
+            rules:
+              line-length: disable
+              truthy:
+                check-keys: false
+                allowed-values:
+                  - "true"
+                  - "false"
+
+  editorconfig:
+    name: Check Against EditorConfig
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check EditorConfig
+        uses: editorconfig-checker/action-editorconfig-checker@v1.0.0
+
+  actionlint:
+    name: Lint Actions
+    runs-on: ubuntu-latest
+
+    env:
+      ACTIONLINT_INSTALLER_URL: https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Restore Actionlint Tools from Cache
+        uses: actions/cache@v3
+        id: cache-actionlint
+        with:
+          key: ${{ runner.os }}-actionlint
+          path: './actionlint'
+
+      - name: Install Actionlint Tools
+        if: steps.cache-actionlint.outputs.cache-hit != 'true'
+        run: |
+          # shellcheck disable=SC2016
+          {
+            echo '# Install Actionlint Tools'
+            echo '```bash'
+            curl -sS "$ACTIONLINT_INSTALLER_URL" | tee -a download-actionlint.bash
+            echo '```'
+            echo '## Installation Log'
+            echo '```'
+            chmod +x download-actionlint.bash
+            ./download-actionlint.bash
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY}"
+
+      - name: Check Workflow Files
+        run: |
+          # shellcheck disable=SC2016
+          {
+            echo '# Run `actionlint`'
+            echo '```'
+            ./actionlint -color
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY}"
