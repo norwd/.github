@@ -2,6 +2,7 @@ include:
   - "**/*.yaml"
   - "**/*.yml"
   - "**/*.cff"
+
 formatter:
   type: basic
   indent: 2
