@@ -12,20 +12,6 @@ defaults:
     shell: bash
 
 jobs:
-  citations:
-    name: Lint Citations
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: python3 -m pip install --user cffconvert
-      - run: |
-          if [ -f CITATION.cff ]
-          then
-            cffconvert --validate
-          else
-            echo "::warning::No CITATION.cff file found"
-          fi
-
   markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
