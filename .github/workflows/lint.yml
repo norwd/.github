@@ -1,29 +1,20 @@
----
-
 name: "Lint"
 run-name: "Linters started by @${{ github.actor }}"
 permissions: read-all
-
 on:
   push:
-
 defaults:
   run:
     shell: bash
-
 jobs:
-
   citations:
     name: Lint Citations
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Setup
         run: python3 -m pip install --user cffconvert
-
       - name: Validate
         run: |
           if [ -f CITATION.cff ]
@@ -32,33 +23,28 @@ jobs:
           else
             echo "::warning::No CITATION.cff file found"
           fi
-
   markdown:
     name: Lint Markdown
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Lint Markdown Files
         uses: nosborn/github-action-markdown-cli@v3.2.0
         with:
           files: "**/*.md"
           dot: true
-
   yaml:
     name: Lint and Reformat Yaml
     runs-on: ubuntu-latest
     permissions:
-     actions: write
-     contents: write
-
+      actions: write
+      contents: write
     steps:
       - uses: actions/setup-go@v3
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.AUTO_YAML_FMT_DOTGITHUB }}
-
       #- run: |
       #    cat << EOF | awk 'NF>0' | tee ${{ runner.temp }}/yamlfmt.conf
       #    include:
@@ -73,7 +59,6 @@ jobs:
       #      retain_line_breaks: true
       #      include_document_start: true
       #    EOF
-
       - run: go install "github.com/google/yamlfmt/cmd/yamlfmt@latest"
       - run: ~/go/bin/yamlfmt . #-conf "${{ runner.temp }}/yamlfmt.conf"
       - uses: stefanzweifel/git-auto-commit-action@v4
@@ -82,7 +67,6 @@ jobs:
             Reformat yaml files
 
             This is an automated commit.
-
       - uses: ibiqlik/action-yamllint@v3
         with:
           strict: true
@@ -96,35 +80,28 @@ jobs:
                 allowed-values:
                   - "true"
                   - "false"
-
   editorconfig:
     name: Check Against EditorConfig
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Check EditorConfig
         uses: editorconfig-checker/action-editorconfig-checker@v1.0.0
-
   actionlint:
     name: Lint Actions
     runs-on: ubuntu-latest
-
     env:
       ACTIONLINT_INSTALLER_URL: https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Restore Actionlint Tools from Cache
         uses: actions/cache@v3
         id: cache-actionlint
         with:
           key: ${{ runner.os }}-actionlint
           path: './actionlint'
-
       - name: Install Actionlint Tools
         if: steps.cache-actionlint.outputs.cache-hit != 'true'
         run: |
@@ -140,7 +117,6 @@ jobs:
             ./download-actionlint.bash
             echo '```'
           } | tee -a "${GITHUB_STEP_SUMMARY}"
-
       - name: Check Workflow Files
         run: |
           # shellcheck disable=SC2016

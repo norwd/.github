@@ -1,20 +1,15 @@
----
-
 name: "Bug report"
 description: "File a bug report to help us improve"
 title: "BUG: "
 labels:
   - "bug"
-
 assignees:
   - "norwd"
-
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
-
   - type: textarea
     id: description
     attributes:
@@ -24,7 +19,6 @@ body:
         A clear and concise description of what the bug is.
     validations:
       required: true
-
   - type: textarea
     id: reproduction
     attributes:
@@ -37,7 +31,6 @@ body:
         4. See error
     validations:
       required: true
-
   - type: textarea
     id: expectation
     attributes:
@@ -45,18 +38,17 @@ body:
       description: "Describe the expected behaviour"
       placeholder: |
         A clear and concise description of what you expected to happen.
-        
+
         *If applicable, add screenshots to help explain your problem.*
     validations:
       required: true
-
   - type: textarea
     id: logs
     attributes:
       label: "Relevant log output"
-      description: "Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks."
+      description: "Please copy and paste any relevant log output. This will be automatically
+        formatted into code, so no need for backticks."
       render: shell
-
   - type: checkboxes
     id: terms
     attributes:
