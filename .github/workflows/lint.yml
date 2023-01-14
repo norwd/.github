@@ -47,39 +47,43 @@ jobs:
           dot: true
 
   yaml:
-    name: Lint Yaml
+    name: Lint and Reformat Yaml
     runs-on: ubuntu-latest
     permissions:
      actions: write
      contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Format YAML Files
-        uses: norwd/fmtya@v1.1.9
+      - uses: actions/setup-go@v3
+      - uses: actions/checkout@v3
         with:
-
-          # github settings
           token: ${{ secrets.AUTO_YAML_FMT_DOTGITHUB }}
 
-          # yamlfmt settings
-          keep-line-breaks: true
-          include-files: |
-            **/*.yaml
-            **/*.yml
-            **/*.cff
+      - run: |
+          cat << EOF | awk 'NF>0' | tee ${{ runner.temp }}/yamlfmt.conf
+          include:
+            - "**/*.yaml"
+            - "**/*.yml"
+            - "**/*.cff"
+          formatter:
+            type: basic
+            indent: 2
+            line_ending: "lf"
+            disallow_anchors: true
+            retain_line_breaks: true
+            include_document_start: true
+          EOF
 
-          # committer settings
-          signoff-on-commit: true
-          commit-user-name: norwd
-          commit-user-email: 106889957+norwd@users.noreply.github.com
-          signing-private-key: ${{ secrets.AUTO_COMMIT_GPG_PRIVATE_KEY_DOTGITHUB }}
-          signing-passphrase: ${{ secrets.AUTO_COMMIT_GPG_PASSPHRASE_DOTGITHUB }}
+      - run: go install "github.com/google/yamlfmt/cmd/yamlfmt@latest"
+      - run: ~/go/bin/yamlfmt -conf "${{ runner.temp }}/yamlfmt.conf"
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: |
+            Reformat yaml files
 
-      - name: Lint YAML Files
-        uses: ibiqlik/action-yamllint@v3
+            This is an automated commit.
+
+      - uses: ibiqlik/action-yamllint@v3
         with:
           strict: true
           format: parsable
