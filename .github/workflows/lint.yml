@@ -45,22 +45,22 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.AUTO_YAML_FMT_DOTGITHUB }}
-      #- run: |
-      #    cat << EOF | awk 'NF>0' | tee ${{ runner.temp }}/yamlfmt.conf
-      #    include:
-      #      - "**/*.yaml"
-      #      - "**/*.yml"
-      #      - "**/*.cff"
-      #    formatter:
-      #      type: basic
-      #      indent: 2
-      #      line_ending: "lf"
-      #      disallow_anchors: true
-      #      retain_line_breaks: true
-      #      include_document_start: true
-      #    EOF
+      - run: |
+          cat << EOF | awk 'NF>0' | tee ${{ runner.temp }}/yamlfmt.conf
+          include:
+            - "**/*.yaml"
+            - "**/*.yml"
+            - "**/*.cff"
+          formatter:
+            type: basic
+            indent: 2
+            line_ending: "lf"
+            disallow_anchors: true
+            retain_line_breaks: true
+            include_document_start: true
+          EOF
       - run: go install "github.com/google/yamlfmt/cmd/yamlfmt@latest"
-      - run: ~/go/bin/yamlfmt . #-conf "${{ runner.temp }}/yamlfmt.conf"
+      - run: ~/go/bin/yamlfmt . -conf "${{ runner.temp }}/yamlfmt.conf"
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: |
