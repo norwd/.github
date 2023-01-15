@@ -6,6 +6,7 @@ permissions: read-all
 
 on:
   push:
+    branch: main
 
 defaults:
   run:
@@ -72,4 +73,3 @@ jobs:
       - uses: norwd/actionlint@main
         with:
           color: true
-
