@@ -69,15 +69,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        id: cache-actionlint
-        with:
-          key: ${{ runner.os }}-actionlint
-          path: './actionlint'
-
-      - if: steps.cache-actionlint.outputs.cache-hit != 'true'
-        run: curl -sS "$ACTIONLINT_INSTALLER_URL" | bash
-        env:
-          ACTIONLINT_INSTALLER_URL: "https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash"
-
-      - run: ./actionlint -color
+      - uses: norwd/actionlint@main
