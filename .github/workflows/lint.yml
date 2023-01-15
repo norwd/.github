@@ -6,7 +6,6 @@ permissions: read-all
 
 on:
   push:
-    branch: main
 
 defaults:
   run:
