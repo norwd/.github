@@ -70,5 +70,3 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: norwd/actionlint@main
-        with:
-          color: false
