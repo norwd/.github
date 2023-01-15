@@ -71,4 +71,4 @@ jobs:
       - uses: actions/checkout@v3
       - uses: norwd/actionlint@main
         with:
-          color: true
+          color: false
