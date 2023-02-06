@@ -16,7 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: citation-file-format/cffconvert-github-action@2.0.0
+
+      - id: citation-file
+        run: echo "exists=$(test -f CITATION.cff && echo 'true' || echo 'false')" | tee -a "${GITHUB_OUTPUT}"
+
+      - if: steps.citation-file.outputs.exists
+        uses: citation-file-format/cffconvert-github-action@2.0.0
         with:
           args: --validate
 
