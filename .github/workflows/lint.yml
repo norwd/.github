@@ -18,7 +18,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - id: citation-file
-        run: echo "exists=$(test -f CITATION.cff && echo 'true' || echo 'false')" | tee -a "${GITHUB_OUTPUT}"
+        run: echo "exists=$(test -f CITATION.cff && echo 'true' || echo 'false')"
+          | tee -a "${GITHUB_OUTPUT}"
 
       - if: steps.citation-file.outputs.exists == 'true'
         uses: citation-file-format/cffconvert-github-action@2.0.0
