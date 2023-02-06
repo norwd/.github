@@ -38,9 +38,6 @@ jobs:
   yaml:
     name: Lint and Reformat Yaml
     runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      contents: write
     steps:
       - uses: actions/setup-go@v3
       - uses: actions/checkout@v3
