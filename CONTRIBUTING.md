@@ -12,6 +12,19 @@ email address that matches the commit author. The DCO is a lightweight way to
 certify that you wrote or otherwise have the right to submit the code you are
 contributing to this project.
 
+## AI Generated Code
+
+Code generated from large language models must be disclosed as such. As any code
+produced from an AI is essentially taken from publicly accessible code, there is
+no way to verify that the code has been certified under the DCO. Even the person
+who prompted the AI could not certify the code produced.
+
+With this in mind, AI generated contributions will be accepted *only* if:
+
+1. The data-set contains only code that can be traced back to indivdual authors
+2. *AND* those authors consented to their code being included in the data-set
+3. *AND* their code was published under a compatible open source license
+
 See also:
 
 * [CODE OF CONDUCT]
