@@ -13,6 +13,7 @@ defaults:
 
 jobs:
   citations:
+    name: Lint Citations
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
