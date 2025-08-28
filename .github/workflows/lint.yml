@@ -15,7 +15,7 @@ jobs:
   citations:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
 
       - id: citation-file
         run: echo "exists=$(test -f CITATION.cff && echo 'true' || echo 'false')" | tee -a "${GITHUB_OUTPUT}"
@@ -29,7 +29,7 @@ jobs:
     name: Lint Markdown
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: nosborn/github-action-markdown-cli@v3.2.0
         with:
           files: "**/*.md"
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@v3
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           token: ${{ secrets.AUTO_YAML_FMT_DOTGITHUB }}
 
@@ -71,12 +71,12 @@ jobs:
     name: Check Against EditorConfig
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: editorconfig-checker/action-editorconfig-checker@v1.0.0
 
   actionlint:
     name: Lint Actions
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: norwd/actionlint@main
