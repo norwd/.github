@@ -32,6 +32,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: nosborn/github-action-markdown-cli@v3.2.0
         with:
+          config_file: .markdownlint.yaml
           files: "**/*.md"
           dot: true
 
@@ -39,7 +40,7 @@ jobs:
     name: Lint and Reformat Yaml
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
       - uses: actions/checkout@v5
         with:
           token: ${{ secrets.AUTO_YAML_FMT_DOTGITHUB }}
