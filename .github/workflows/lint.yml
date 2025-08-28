@@ -6,6 +6,8 @@ permissions: read-all
 
 on:
   push:
+  schedule:
+    - cron: '59 23 28 * *'
 
 defaults:
   run:
