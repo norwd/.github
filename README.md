@@ -45,6 +45,7 @@ I'm currently working on:
 * [EVi] - A programmer's text editor
 * [etc] - My dotfiles, configs, settings, ~/etc...
 * [zzz] - Drop-in replacement for `sleep(1)` that snores 💤
+* [zt] - A simple terminal that sucks slightly less than st
 * [zwm] and [zmenu] - My forks of dwm and dmenu, slowly being rewritten in Zig
 * [farbfeld] - Image processing and conversion tools for the .ff image format.
 * [slopcheck] - Check for signs of LLM agents in git repositories - Rewrite of @liberty's [slopcheck][slopcheck-orig] in POSIX shell
@@ -59,6 +60,7 @@ I'm currently working on:
 [zmenu]: https://codeberg.org/norwd/zmenu
 [zzz]: https://codeberg.org/norwd/zzz
 [zwm]: https://codeberg.org/norwd/zwm
+[zt]: https://codeberg.org/norwd/zt
 [farbfeld]: https://codeberg.org/norwd/farbfeld
 
 Checkout my repositories [here][my-repos] for more.
